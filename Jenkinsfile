@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from your GitHub repository
-                git 'https://github.com/muthu512/test1.git'
+                // Checkout code from your GitHub repository with the correct branch
+                git branch: 'main', url: 'https://github.com/muthu512/test1.git'
             }
         }
 
@@ -18,8 +18,15 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Run the JAR file
-                sh 'java -jar target/test-main.zip'
+                // Ensure the JAR file exists before attempting to run it
+                script {
+                    if (fileExists('target/test-main.jar')) {
+                        // Run the JAR file
+                        sh 'java -jar target/test-main.jar'
+                    } else {
+                        error 'JAR file not found!'
+                    }
+                }
             }
         }
     }
@@ -33,4 +40,5 @@ pipeline {
         }
     }
 }
+
 
