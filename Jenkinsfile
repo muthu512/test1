@@ -19,7 +19,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 // Run the JAR file
-                sh 'java -jar target/test-main.zip'
+                sh 'java -jar target/test-main.jar'
             }
         }
     }
@@ -33,3 +33,4 @@ pipeline {
         }
     }
 }
+
