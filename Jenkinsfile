@@ -1,42 +1,35 @@
 pipeline {
-    agent any 
+    agent any
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from your GitHub repository with the correct branch
-                git branch: 'main', url: 'https://github.com/muthu512/test1.git'
+                // Checkout your GitHub repository
+                git 'https://github.com/muthu512/test1.git'
             }
         }
 
-        stage('Build') {
+        stage('Download JAR') {
             steps {
-                // Build your Spring Boot application
-                sh 'mvn clean package'
+                // Download the JAR file from the GitHub repository
+                sh 'curl -L -o test-main.jar https://github.com/muthu512/test1/raw/main/test-main.jar'
             }
         }
 
-        stage('Deploy') {
+        stage('Run JAR') {
             steps {
-                // Ensure the JAR file exists before attempting to run it
-                script {
-                    if (fileExists('target/test-main.jar')) {
-                        // Run the JAR file
-                        sh 'java -jar target/test-main.jar'
-                    } else {
-                        error 'JAR file not found!'
-                    }
-                }
+                // Run the downloaded JAR file
+                sh 'java -jar test-main.jar'
             }
         }
     }
 
     post {
         success {
-            echo 'Deployment successful!'
+            echo 'JAR file execution successful!'
         }
         failure {
-            echo 'Deployment failed!'
+            echo 'JAR file execution failed!'
         }
     }
 }
