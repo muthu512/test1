@@ -9,17 +9,24 @@ pipeline {
             }
         }
 
+        stage('Unzip File') {
+            steps {
+                // Unzip the file to extract the JAR
+                sh 'unzip online-1.zip'
+            }
+        }
+
         stage('Verify JAR') {
             steps {
-                // Verify the JAR file exists in the repository
-                sh 'ls -la test-main.jar'
+                // Verify that the JAR file exists after unzipping
+                sh 'ls -la your-extracted-jar-file.jar'
             }
         }
 
         stage('Run JAR') {
             steps {
-                // Run the JAR file from the checked-out repository
-                sh 'java -jar test-main.jar'
+                // Run the extracted JAR file
+                sh 'java -jar your-extracted-jar-file.jar'
             }
         }
     }
