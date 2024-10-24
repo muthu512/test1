@@ -4,15 +4,21 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/muthu512/test1.git', branch: 'main'
+                script {
+                    // Clone the repository
+                    git url: 'https://github.com/muthu512/test1.git', branch: 'main'
+                    
+                    // List the contents of the workspace
+                    sh 'ls -l'
+                }
             }
         }
 
         stage('Build') {
             steps {
                 script {
-                    // List the contents of the workspace
-                    sh 'ls -l'
+                    // Ensure mvnw is executable
+                    sh 'chmod +x mvnw'  // No quotes around this command
                     // Run the Maven Wrapper to build the project
                     sh './mvnw clean package'
                 }
