@@ -8,27 +8,24 @@ pipeline {
             }
         }
 
-        stage('Install Unzip') {
+        stage('Build') {
             steps {
-                sh 'sudo apt-get update && sudo apt-get install -y unzip'
-            }
-        }
-
-        stage('Unzip File') {
-            steps {
-                sh 'unzip online-1.zip'
+                // Build the project using Maven
+                sh './mvnw clean package'
             }
         }
 
         stage('Verify JAR') {
             steps {
-                sh 'ls -la your-extracted-jar-file.jar'
+                // Verify the JAR file exists in the target directory
+                sh 'ls -la target/*.jar'
             }
         }
 
         stage('Run JAR') {
             steps {
-                sh 'java -jar your-extracted-jar-file.jar'
+                // Run the JAR file from the target directory
+                sh 'java -jar target/*.jar'
             }
         }
     }
