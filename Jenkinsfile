@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the 'main' branch where the Jenkinsfile and source code are
-                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
+                git branch: 'main', url: 'https://github.com/your-username/your-repo.git', credentialsId: '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'
             }
         }
         stage('Build') {
