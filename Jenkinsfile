@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from your Git repository
                 git url: 'https://github.com/muthu512/test1.git', branch: 'main'
             }
         }
@@ -12,6 +11,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    // List the contents of the workspace
+                    sh 'ls -l'
                     // Run the Maven Wrapper to build the project
                     sh './mvnw clean package'
                 }
