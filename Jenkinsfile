@@ -1,29 +1,49 @@
 pipeline {
     agent any
+
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the 'main' branch where the Jenkinsfile and source code are
-                git branch: 'main', url: 'https://github.com/your-username/your-repo.git', credentialsId: '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'
+                // Checkout the code from the repository
+                checkout scm
             }
         }
+        
         stage('Build') {
             steps {
-                // Run Maven to build the project and create the JAR file
-                sh 'mvn clean install'
+                // Build the application using Maven
+                script {
+                    sh './mvnw clean package'
+                }
             }
         }
+
         stage('Test') {
             steps {
-                // Run tests using Maven
-                sh 'mvn test'
+                // Run your tests here
+                script {
+                    sh './mvnw test'
+                }
             }
         }
+
         stage('Deploy') {
             steps {
-                // Run the newly created JAR file
-                sh 'java -jar target/online-1-0.0.1-SNAPSHOT.jar'
+                // Deploy your application (e.g., copy JAR file to server)
+                script {
+                    // Replace this with your actual deployment command
+                    sh 'scp target/online-1-0.0.1-SNAPSHOT.jar user@your-server:/path/to/deploy/'
+                }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs.'
         }
     }
 }
