@@ -4,15 +4,15 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from the repository
-                checkout scm
+                // Checkout code from your Git repository
+                git url: 'https://github.com/muthu512/test1.git', branch: 'main'
             }
         }
-        
+
         stage('Build') {
             steps {
-                // Build the application using Maven
                 script {
+                    // Run the Maven Wrapper to build the project
                     sh './mvnw clean package'
                 }
             }
@@ -20,8 +20,8 @@ pipeline {
 
         stage('Test') {
             steps {
-                // Run your tests here
                 script {
+                    // Run tests using the Maven Wrapper
                     sh './mvnw test'
                 }
             }
@@ -29,10 +29,9 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Deploy your application (e.g., copy JAR file to server)
                 script {
-                    // Replace this with your actual deployment command
-                    sh 'scp target/online-1-0.0.1-SNAPSHOT.jar user@your-server:/path/to/deploy/'
+                    // Add your deployment logic here
+                    echo 'Deploying application...'
                 }
             }
         }
@@ -47,6 +46,7 @@ pipeline {
         }
     }
 }
+
 
 
 
